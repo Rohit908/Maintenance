@@ -1,0 +1,202 @@
+<html>
+<head>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+	<style>
+		header{
+			margin: 2%;
+			display: flex;
+			justify-content: space-around;
+			align-items: center;
+		}
+		main div{
+			display: flex;
+			justify-content: space-between;
+		}
+		@media only screen and (pointer:none), (pointer:coarse) {
+			header{
+				font-size: 40px;
+			}
+			h5{
+				font-size: 35px;
+			}
+			main{
+				font-size: 30px;
+			}
+			.table {
+				font-size: 30px !important;
+			}
+		}
+	</style>
+</head>
+<body class="p-3" style="background-image: url('./bg.avif'); background-size: cover; backdrop-filter: blur(10px);">
+	<header>
+		<div class="card" style="width: 18rem;">
+			<div class="card-body">
+				<h5 class="card-title">
+					<label id="totalCollectionLabel">4000</label>
+				</h5>
+			  	<p class="card-text">Collection</p>
+			</div>
+		</div>
+		<div class="card" style="width: 18rem;">
+			<div class="card-body">
+				<h5 class="card-title">
+					<label id="totalExpenseLabel">4000</label>
+				</h5>
+			  	<p class="card-text">Expense</p>
+			</div>
+		</div>
+		<div class="card" style="width: 18rem;">
+			<div class="card-body">
+				<h5 class="card-title">
+					<label id="totalBalanceLabel">4000</label>
+				</h5>
+			  	<p class="card-text">Balance</p>
+			</div>
+		</div>
+	</header>
+	<main class="mt-5">
+		<div>
+			<ul class="nav nav-tabs">
+				<li class="nav-item">
+				  <button class="nav-link text-dark active bg-success border border-secondary" id="collection-btn">Collection</button>
+				</li>
+				<li class="nav-item">
+					<button class="nav-link text-dark border border-secondary" id="expense-btn">Expense</button>
+				</li>
+			</ul>
+			<select id="monthDropdown">
+				<option value="">All</option>
+			</select>
+		</div>
+		<table id="collection-table" class="table table-responsive table-striped table-bordered border-dark table-sm">
+			<thead class="table-dark">
+				<tr>
+					<th>Month</th>
+					<th>Flat No</th>
+					<th>Amount Paid</th>
+					<th>Date</th>
+					<th>Status</th>
+				</tr>
+			</thead>
+			<tbody id="collection-table-body">
+			</tbody>
+		</table>
+		<table id="expense-table" class="table table-responsive table-striped table-bordered border-dark table-sm">
+			<thead class="table-dark">
+				<tr>
+					<th>Month</th>
+					<th>Category</th>
+					<th>Amount</th>
+					<th>Date</th>
+					<th>Description</th>
+				</tr>
+			</thead>
+			<tbody id="expense-table-body">
+
+			</tbody>
+		</table>
+	</main>
+	<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+	<script>
+		var months = [];
+		var collection = [];
+		var expenses = [];
+		const collectionTableBody = 'collection-table-body';
+		const expenseTableBody = 'expense-table-body';
+
+		$(document).ready(function() {
+			init();
+            $.getJSON("maintenance.json", function(data) {
+				collection = data.collection;
+				expenses = data.expenses;
+				let totalCollection = populateTable(collection, collectionTableBody);
+				let totalExpense = populateTable(expenses, expenseTableBody);
+				updateHeader(totalCollection, totalExpense);
+
+				var dropdown = $("#monthDropdown");
+				months = Object.keys(collection);
+				$.each(months, function(index, month) {
+					dropdown.append($("<option></option>").attr("value", month).text(month));
+				});
+            });
+
+        });
+
+		function onMonthSelected()
+		{
+			$("#monthDropdown").change(()=>
+			{
+				var selectedValue = event.target.value;
+				if(!selectedValue)
+				{
+					let totalCollection = populateTable(collection, collectionTableBody);
+					let totalExpense = populateTable(expenses, expenseTableBody);
+					updateHeader(totalCollection, totalExpense);
+				}
+				else{
+					let totalCollection = populateTable({[selectedValue]: collection[selectedValue]}, collectionTableBody);
+					let totalExpense = populateTable({[selectedValue]: expenses[selectedValue]}, expenseTableBody);
+					updateHeader(totalCollection, totalExpense);
+				}
+			});
+		}
+
+		function populateTable(data, tableId){
+			let rows = '';
+			let totalAmount = 0;
+
+			$.each(data, (key, record)=>{
+				rows += '<tr>';
+				rows += `<td rowspan="${record?.length}">${key}</td>`
+				$.each(record, (index, obj)=>{
+					rows += tableId.includes('collection') ? collectionRow(obj) : expenseRow(obj);
+					totalAmount += obj.Amount;
+				});
+			});
+			$("#" + tableId).html(rows);
+			return totalAmount;
+		};
+
+		function collectionRow(obj){
+			return `<td>${obj.FlatId}</td>
+					<td>${obj.Amount}</td>
+					<td>${obj.PaymentDate}</td>
+					<td class="${obj.Status == 'Paid' ? 'bg-success' : 'bg-warning'}">${obj.Status}</td></tr>`;
+		}
+
+		function expenseRow(obj){
+			return `<td>${obj.Category}</td>
+					<td>${obj.Amount}</td>
+					<td>${obj.Date}</td>
+					<td>${obj.Description}</td></tr>`;
+		}
+
+		function init(){
+			
+			onMonthSelected();
+
+			$('#expense-table').hide();
+			$('#collection-btn').click(()=>{
+				$('#collection-btn').addClass('active bg-success');
+				$('#expense-btn').removeClass('active bg-danger');
+				$('#collection-table').show();
+				$('#expense-table').hide();
+			});
+			$('#expense-btn').click(()=>{
+				$('#expense-btn').addClass('active bg-danger');
+				$('#collection-btn').removeClass('active bg-success');
+				$('#collection-table').hide();
+				$('#expense-table').show();
+			});
+		}
+
+		function updateHeader(totalCollection, totalExpense){
+			$('#totalCollectionLabel').text(totalCollection);
+			$('#totalExpenseLabel').text(totalExpense);
+			$('#totalBalanceLabel').text(totalCollection-totalExpense);
+		}
+	</script>
+</body>
+</html>
