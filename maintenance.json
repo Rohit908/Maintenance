@@ -1,21 +1,82 @@
 {
     "collection": {
-        "Feb 2025" : [
-            { "CollectionId": 1, "FlatId": "G + 101", "Amount": 0, "PaymentDate": "", "Status": "Pending" },
-            { "CollectionId": 2, "FlatId": "102", "Amount": 0, "PaymentDate": "", "Status": "Pending" },
-            { "CollectionId": 3, "FlatId": "201", "Amount": 2000, "PaymentDate": "12-Feb-2025", "Status": "Paid"},
-            { "CollectionId": 4, "FlatId": "202", "Amount": 2000, "PaymentDate": "12-Feb-2025", "Status": "Paid"}
+        "Feb 2025": [
+            {
+                "CollectionId": 1,
+                "FlatId": "G + 101",
+                "Amount": 0,
+                "PaymentDate": "",
+                "Status": "Pending"
+            },
+            {
+                "CollectionId": 2,
+                "FlatId": "102",
+                "Amount": 2000,
+                "PaymentDate": "1-Mar-2025",
+                "Status": "Paid"
+            },
+            {
+                "CollectionId": 3,
+                "FlatId": "201",
+                "Amount": 2000,
+                "PaymentDate": "12-Feb-2025",
+                "Status": "Paid"
+            },
+            {
+                "CollectionId": 4,
+                "FlatId": "202",
+                "Amount": 2000,
+                "PaymentDate": "12-Feb-2025",
+                "Status": "Paid"
+            }
         ],
         "March 2025": [
-            { "CollectionId": 1, "FlatId": "G + 101", "Amount": 0, "PaymentDate": "", "Status": "Pending" },
-            { "CollectionId": 2, "FlatId": "102", "Amount": 0, "PaymentDate": "", "Status": "Pending" },
-            { "CollectionId": 3, "FlatId": "201", "Amount": 0, "PaymentDate": "", "Status": "Pending"},
-            { "CollectionId": 4, "FlatId": "202", "Amount": 0, "PaymentDate": "", "Status": "Pending"}
+            {
+                "CollectionId": 1,
+                "FlatId": "G + 101",
+                "Amount": 0,
+                "PaymentDate": "",
+                "Status": "Pending"
+            },
+            {
+                "CollectionId": 2,
+                "FlatId": "102",
+                "Amount": 0,
+                "PaymentDate": "",
+                "Status": "Pending"
+            },
+            {
+                "CollectionId": 3,
+                "FlatId": "201",
+                "Amount": 0,
+                "PaymentDate": "",
+                "Status": "Pending"
+            },
+            {
+                "CollectionId": 4,
+                "FlatId": "202",
+                "Amount": 0,
+                "PaymentDate": "",
+                "Status": "Pending"
+            }
         ]
     },
     "expenses": {
         "Feb 2025": [
-            { "ExpenseId": 1, "Category": "Cleaning", "Amount": 1500, "Date": "14-Feb-2025", "Description": "Paid Rs 1500 to cleaner"  }
+            {
+                "ExpenseId": 1,
+                "Category": "Cleaning",
+                "Amount": 1500,
+                "Date": "14-Feb-2025",
+                "Description": "Paid to cleaner"
+            },
+            {
+                "ExpenseId": 2,
+                "Category": "Cleaning",
+                "Amount": 600,
+                "Date": "28-Feb-2025",
+                "Description": "New dustbin cost"
+            }
         ]
     }
 }
