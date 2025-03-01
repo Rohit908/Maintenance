@@ -1,34 +1,35 @@
-header{
-    margin: 2%;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-}
-main div{
-    display: flex;
-    justify-content: space-between;
+body {
+    background: url('./bg.avif');
+    background-size: cover;
+    backdrop-filter: blur(2px);
 }
 
-select{
-    border-radius: 0.2rem;
-    outline: none;
+.dashboard-card {
+    width: 18rem;
+    border-radius: 10px;
+    text-align: center;
+    background: rgba(0, 0, 0, 0.537);
+    box-shadow: 0 4px 8px rgba(11, 11, 11, 0.58);
+    color: #fff;
 }
-select:focus{
-    border: 1px solid #007aff;
-    box-shadow: 1px 1px 5px #007aff;
+.dashboard-card i {
+    font-size: 2rem;
+    margin-bottom: 10px;
 }
 
-@media only screen and (pointer:none), (pointer:coarse) {
-    header{
-        font-size: 40px;
-    }
-    h5{
-        font-size: 35px;
-    }
-    main{
-        font-size: 30px;
-    }
-    .table {
-        font-size: 30px !important;
-    }
+.nav-tabs .nav-link {
+    font-weight: bold;
+    background-color: rgba(0, 0, 0, 0.365);
+    color: white !important;
+}
+
+th, td{
+    padding: 5px !important;
+}
+
+select {
+    color: rgb(0, 0, 0);
+    padding: 5px 10px;
+    border-radius: 5px;
+    width: 100px;
 }

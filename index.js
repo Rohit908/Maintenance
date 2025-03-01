@@ -1,90 +1,82 @@
+const collectionTableBody = '#collection-table-body';
+const expenseTableBody = '#expense-table-body';
+let collection = {};
+let expenses = {};
 
-var months = [];
-var collection = [];
-var expenses = [];
-const collectionTableBody = 'collection-table-body';
-const expenseTableBody = 'expense-table-body';
-
-$(document).ready(function () {
+$(document).ready(() => {
+    preventCache();
     init();
-    $.getJSON("maintenance.json", function (data) {
+
+    $.getJSON("maintenance.json", (data) => {
         collection = data.collection;
         expenses = data.expenses;
-        let totalCollection = populateTable(collection, collectionTableBody);
-        let totalExpense = populateTable(expenses, expenseTableBody);
-        updateHeader(totalCollection, totalExpense);
 
-        var dropdown = $("#monthDropdown");
-        months = Object.keys(collection);
-        $.each(months, function (index, month) {
-            dropdown.append($("<option></option>").attr("value", month).text(month));
+        updateUI();
+
+        const dropdown = $("#monthDropdown");
+        Object.keys(collection).forEach(month => {
+            dropdown.append(new Option(month, month));
         });
-    });
 
+        dropdown.change(onMonthSelected);
+    });
 });
 
 function onMonthSelected() {
-    $("#monthDropdown").change(() => {
-        var selectedValue = event.target.value;
-        if (!selectedValue) {
-            let totalCollection = populateTable(collection, collectionTableBody);
-            let totalExpense = populateTable(expenses, expenseTableBody);
-            updateHeader(totalCollection, totalExpense);
-        }
-        else {
-            let totalCollection = populateTable({ [selectedValue]: collection[selectedValue] }, collectionTableBody);
-            let totalExpense = populateTable({ [selectedValue]: expenses[selectedValue] }, expenseTableBody);
-            updateHeader(totalCollection, totalExpense);
-        }
-    });
+    const selectedMonth = $("#monthDropdown").val();
+    updateUI(selectedMonth);
 }
 
-function populateTable(data, tableId) {
+function updateUI(month = null) {
+    const filteredCollection = month ? { [month]: collection[month] } : collection;
+    const filteredExpenses = month ? { [month]: expenses[month] } : expenses;
+
+    const totalCollection = populateTable(filteredCollection, collectionTableBody, collectionRow);
+    const totalExpense = populateTable(filteredExpenses, expenseTableBody, expenseRow);
+
+    updateHeader(totalCollection, totalExpense);
+}
+
+function populateTable(data, tableId, rowFormatter) {
     let rows = '';
     let totalAmount = 0;
 
-    $.each(data, (key, record) => {
-        rows += '<tr>';
-        rows += `<td rowspan="${record?.length}">${key}</td>`
-        $.each(record, (index, obj) => {
-            rows += tableId.includes('collection') ? collectionRow(obj) : expenseRow(obj);
-            totalAmount += obj.Amount;
-        });
+    $.each(data, (month, records) => {
+        if (records?.length) {
+            rows += `<tr><td rowspan="${records.length}">${month}</td>`;
+            records.forEach((record, index) => {
+                if (index > 0) rows += '<tr>';
+                rows += rowFormatter(record);
+                totalAmount += record.Amount;
+            });
+        }
     });
-    $("#" + tableId).html(rows);
+
+    $(tableId).html(rows);
     return totalAmount;
-};
-
-function collectionRow(obj) {
-    return `<td>${obj.FlatId}</td>
-					<td>${obj.Amount}</td>
-					<td>${obj.PaymentDate}</td>
-					<td class="${obj.Status == 'Paid' ? 'bg-success' : 'bg-warning'}">${obj.Status}</td></tr>`;
 }
 
-function expenseRow(obj) {
-    return `<td>${obj.Category}</td>
-                <td>${obj.Date}</td>
-                <td>${obj.Amount}</td>
-                <td>${obj.Description}</td></tr>`;
-}
+const collectionRow = (obj) => `
+    <td>${obj.FlatId ? obj.FlatId : '-'}</td>
+    <td>${obj.Amount ? obj.Amount : '-'}</td>
+    <td>${obj.PaymentDate ? obj.PaymentDate : '-'}</td>
+    <td class="${obj.Status === 'Paid' ? 'bg-success' : 'bg-warning'}">${obj.Status ? obj.Status : '-'}</td></tr>`;
+
+const expenseRow = (obj) => `
+    <td>${obj.Category ? obj.Category : '-' }</td>
+    <td>${obj.Date ? obj.Date : '-' }</td>
+    <td>${obj.Amount ? obj.Amount : '-' }</td>
+    <td>${obj.Description ? obj.Description : '-' }</td></tr>`;
 
 function init() {
-
-    onMonthSelected();
-
     $('#expense-table').hide();
-    $('#collection-btn').click(() => {
-        $('#collection-btn').removeClass('text-dark').addClass('active bg-success text-light');
-        $('#expense-btn').removeClass('active bg-danger text-light').addClass('text-dark');
-        $('#collection-table').show();
-        $('#expense-table').hide();
-    });
-    $('#expense-btn').click(() => {
-        $('#expense-btn').removeClass('text-dark').addClass('active bg-danger text-light');
-        $('#collection-btn').removeClass('active bg-success text-light').addClass('text-dark');
-        $('#collection-table').hide();
-        $('#expense-table').show();
+
+    $('#collection-btn, #expense-btn').click(function () {
+        const isCollection = $(this).attr('id') === 'collection-btn';
+        $('#collection-btn').toggleClass('active bg-success', isCollection);
+        $('#expense-btn').toggleClass('active bg-danger', !isCollection);
+        $('#collection-table').toggle(isCollection);
+        $('#expense-table').toggle(!isCollection);
     });
 }
 
@@ -92,4 +84,16 @@ function updateHeader(totalCollection, totalExpense) {
     $('#totalCollectionLabel').text(totalCollection);
     $('#totalExpenseLabel').text(totalExpense);
     $('#totalBalanceLabel').text(totalCollection - totalExpense);
+}
+
+function preventCache() {
+    $("script[src], link[href]").each(function () {
+        const $this = $(this);
+        const url = $this.attr("src") || $this.attr("href");
+        if (url) {
+            const separator = url.includes("?") ? "&" : "?";
+            $this.attr("src", url + separator + "v=" + Date.now());
+            $this.attr("href", url + separator + "v=" + Date.now());
+        }
+    });
 }

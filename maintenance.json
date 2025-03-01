@@ -30,7 +30,7 @@
                 "Status": "Paid"
             }
         ],
-        "March 2025": [
+        "Mar 2025": [
             {
                 "CollectionId": 1,
                 "FlatId": "G + 101",
@@ -76,6 +76,15 @@
                 "Amount": 600,
                 "Date": "28-Feb-2025",
                 "Description": "New dustbin cost"
+            }
+        ],
+        "Mar 2025": [
+            {
+                "ExpenseId": 1,
+                "Category": "",
+                "Amount": 0,
+                "Date": "",
+                "Description": ""
             }
         ]
     }
