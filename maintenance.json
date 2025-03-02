@@ -76,6 +76,13 @@
                 "Amount": 600,
                 "Date": "28-Feb-2025",
                 "Description": "New dustbin cost"
+            },
+            {
+                "ExpenseId": 3,
+                "Category": "Electricity",
+                "Amount": 1070,
+                "Date": "03-Mar-2025",
+                "Description": "Electricity Bill (102314066)"
             }
         ],
         "Mar 2025": [
