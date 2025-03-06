@@ -86,6 +86,10 @@ function updateHeader(totalCollection, totalExpense) {
     $('#totalBalanceLabel').text(totalCollection - totalExpense);
 }
 
+function hardRefresh(){
+    window.location.reload(true);
+}
+
 function preventCache() {
     $("script[src], link[href]").each(function () {
         const $this = $(this);

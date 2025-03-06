@@ -4,6 +4,26 @@ body {
     backdrop-filter: blur(2px);
 }
 
+.refresh{
+    background: rgba(0, 0, 0, 0.537);
+    width: 70px;
+    height: 70px;
+    position: absolute;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    color: white;
+    border-radius: 50px;
+    font-size: 30px;
+    outline: none;
+    border: none;
+}
+
+.refresh:hover{
+    box-shadow: 1px 1px 1px black;
+    transform: scale(0.98);
+}
+
 .dashboard-card {
     width: 18rem;
     border-radius: 10px;
