@@ -88,10 +88,10 @@
         "Mar 2025": [
             {
                 "ExpenseId": 1,
-                "Category": "",
-                "Amount": 0,
-                "Date": "",
-                "Description": ""
+                "Category": "Cleaning",
+                "Amount": 1500,
+                "Date": "07-Mar-2025",
+                "Description": "Paid to cleaner"
             }
         ]
     }
