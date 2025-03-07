@@ -48,9 +48,9 @@
             {
                 "CollectionId": 3,
                 "FlatId": "201",
-                "Amount": 0,
-                "PaymentDate": "",
-                "Status": "Pending"
+                "Amount": 2000,
+                "PaymentDate": "7-Mar-2025",
+                "Status": "Paid"
             },
             {
                 "CollectionId": 4,
@@ -68,30 +68,37 @@
                 "Category": "Cleaning",
                 "Amount": 1500,
                 "Date": "14-Feb-2025",
-                "Description": "Paid to cleaner"
+                "Description": "Paid to cleaner (Feb month)"
             },
             {
                 "ExpenseId": 2,
                 "Category": "Cleaning",
                 "Amount": 600,
                 "Date": "28-Feb-2025",
-                "Description": "New dustbin cost"
-            },
-            {
-                "ExpenseId": 3,
-                "Category": "Electricity",
-                "Amount": 1070,
-                "Date": "03-Mar-2025",
-                "Description": "Electricity Bill (102314066)"
+                "Description": "Dustbin cost"
             }
         ],
         "Mar 2025": [
             {
                 "ExpenseId": 1,
+                "Category": "Electricity",
+                "Amount": 1070,
+                "Date": "03-Mar-2025",
+                "Description": "Electricity Bill for 102314066 (Feb month)"
+            },
+            {
+                "ExpenseId": 2,
                 "Category": "Cleaning",
                 "Amount": 1500,
                 "Date": "07-Mar-2025",
-                "Description": "Paid to cleaner"
+                "Description": "Paid to cleaner (March month)"
+            },
+            {
+                "ExpenseId": 3,
+                "Category": "Security",
+                "Amount": 5000,
+                "Date": "07-Mar-2025",
+                "Description": "Paid to security guard (Jan, Feb month)"
             }
         ]
     }
