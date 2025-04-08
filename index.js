@@ -4,7 +4,6 @@ let collection = {};
 let expenses = {};
 
 $(document).ready(() => {
-    preventCache();
     init();
 
     $.getJSON("maintenance.json", (data) => {
@@ -35,6 +34,9 @@ function updateUI(month = null) {
     const totalExpense = populateTable(filteredExpenses, expenseTableBody, expenseRow);
 
     updateHeader(totalCollection, totalExpense);
+    calculateBalance();
+    $('#col').text(month);
+    $('#exp').text(month);
 }
 
 function populateTable(data, tableId, rowFormatter) {
@@ -83,17 +85,22 @@ function init() {
 function updateHeader(totalCollection, totalExpense) {
     $('#totalCollectionLabel').text(totalCollection);
     $('#totalExpenseLabel').text(totalExpense);
-    $('#totalBalanceLabel').text(totalCollection - totalExpense);
 }
 
-function preventCache() {
-    $("script[src], link[href]").each(function () {
-        const $this = $(this);
-        const url = $this.attr("src") || $this.attr("href");
-        if (url) {
-            const separator = url.includes("?") ? "&" : "?";
-            $this.attr("src", url + separator + "v=" + Date.now());
-            $this.attr("href", url + separator + "v=" + Date.now());
+function calculateBalance(){
+    const selectedMonth = $("#monthDropdown").val();
+
+        let totalCollectionTillDate = 0;
+        let totalExpenseTillDate = 0;
+        for(const month in collection){
+            if(new Date(month) > new Date(selectedMonth)){
+                break;
+            }
+            totalCollectionTillDate += $.map(collection[month], item => item.Amount)
+            .reduce((a, b) => a + b, 0);
+            totalExpenseTillDate += $.map(expenses[month], item => item.Amount)
+            .reduce((a, b) => a + b, 0);
         }
-    });
+       
+        $('#totalBalanceLabel').text(totalCollectionTillDate - totalExpenseTillDate);
 }

@@ -4,14 +4,27 @@ body {
     backdrop-filter: blur(2px);
 }
 
+p span{
+    display: block;
+}
+p{
+    margin: 0;
+}
 .dashboard-card {
     width: 18rem;
     border-radius: 10px;
     text-align: center;
-    background: rgba(0, 0, 0, 0.537);
+    background: rgba(100, 100, 100, 0.537);
     box-shadow: 0 4px 8px rgba(11, 11, 11, 0.58);
-    color: #fff;
+    color: #000;
 }
+.green{
+    background: rgba(0, 255, 0, 0.537);
+}
+.red{
+    background: rgba(255, 0, 0, 0.537);
+}
+
 .dashboard-card i {
     font-size: 2rem;
     margin-bottom: 10px;
@@ -32,4 +45,10 @@ select {
     padding: 5px;
     border-radius: 5px;
     width: 110px;
+}
+
+@media (max-width: 600px) {
+    .dashboard-card{
+        margin: 0px !important;
+    }
 }

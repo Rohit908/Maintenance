@@ -10,20 +10,20 @@
 </head>
 <body class="p-3">
 	<header class="d-flex justify-content-center gap-4 flex-wrap mb-4">
-		<div class="card dashboard-card p-3">
+		<div class="card p-3 mt-5 green dashboard-card">
 			<i class="fas fa-hand-holding-usd"></i>
             <h5 id="totalCollectionLabel">0</h5>
-            <p>Collection</p>
+            <p>Collection <div id="col"></div></p>
 		</div>
-		<div class="card dashboard-card p-3">
-			<i class="fas fa-credit-card"></i>
-            <h5 id="totalExpenseLabel">0</h5>
-            <p>Expense</p>
-		</div>
-		<div class="card dashboard-card p-3">
+        <div class="card p-3 mb-5 dashboard-card">
 			<i class="fas fa-coins"></i>
             <h5 id="totalBalanceLabel">0</h5>
             <p>Balance</p>
+		</div>
+		<div class="card p-3 mt-5 red dashboard-card ">
+			<i class="fas fa-credit-card"></i>
+            <h5 id="totalExpenseLabel">0</h5>
+            <p>Expense <div id="exp"></div></p>
 		</div>
 	</header>
 	<main class="mt-5">
